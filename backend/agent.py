@@ -7,6 +7,7 @@ from datetime import date
 
 from transpeaker import Transpeaker
 #FIXME: 안녕
+# 누구세요
 load_dotenv()
 api_key = os.getenv('OPENAI_KEY')
 llm = ChatOpenAI(openai_api_key=api_key, model_name='gpt-4')
@@ -103,7 +104,7 @@ class ConversationSession:
         return disentangled
 
     def prompt(self, prompt):
-        pseudo_system = "(You are an autonomous intelligent )"
+        pseudo_system_message = "(You are an autonomous intelligent )"
         reminiscence = self.reminisce(prompt)
         print('\n' + reminiscence + prompt + '\n')
         response = llm.predict(reminiscence + prompt)
@@ -135,6 +136,6 @@ class Agent:
 if __name__ == "__main__":
     memory_path = "conversationSessions/temp" if os.path.isfile("conversationSessions/temp") else None
 
-    session = ConversationSession()
+    session = ConversationSession(memory_path)
     while True:
         session.prompt(input(">>>"))
