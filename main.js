@@ -43,14 +43,16 @@ function createOrToggleSplashWindow() {
         let x = splashWindow.getPosition()[0];
         
         showInterval = setInterval(() => {
+            // canvasWindow.webContents.executeJavaScript('canvasApp()');
+
             if (x < 0) {
                 x += 10;
                 splashWindow.setPosition(x, 0, false);
                 splashWindow.setSize(width / 3, height, false);
             } else {
                 splashWindowActivated = true;
-                splashWindow.setSize(width / 3, height, false);
                 splashWindow.setPosition(0, 0, false);
+                splashWindow.setSize(width / 3, height, false);
                 clearInterval(showInterval);
                 splashWindow.focus();
             }
@@ -71,8 +73,8 @@ function createOrToggleSplashWindow() {
                 splashWindow.setSize(width / 3, height, false);
             } else {
                 splashWindowActivated = false;
-                splashWindow.setSize(width / 3, height, false);
                 splashWindow.setPosition(-width / 3, 0, false);
+                splashWindow.setSize(width / 3, height, false);
                 clearInterval(hideInterval);
             }
         }, 1);
@@ -104,8 +106,8 @@ function createOrToggleSplashWindow() {
         
         splashWindow.loadFile('splash.html');
         splashWindow.once('ready-to-show', () => {
-            canvasWindow.setHasShadow(false);
-            canvasWindow.show();
+            splashWindow.setHasShadow(false);
+            splashWindow.show();
             driftWindowToShow();
         });
         
