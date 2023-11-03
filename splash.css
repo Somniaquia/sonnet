@@ -2,8 +2,8 @@
     border-radius: 10px;
     background: rgba(255, 255, 255, 0.50);
     backdrop-filter: blur(10px);
-    width: 700px;
-    height: 1100px;
+    width: 750px;
+    height: 1150px;
     flex-shrink: 0;
 }
 
@@ -11,12 +11,51 @@
     background: rgba(105.36, 172.96, 164.59, 0.50);
 }
 
-div {
+div, input{
     border-radius: 40px;
+    position: absolute;
+}
+
+input,
+input:focus{
+    resize: none;
+    overflow: hidden;
+    outline: none !important;
+    box-shadow: none !important;
+
+}
+
+.schedule_list_text{
+    color: #000;
+    text-align: center;
+    font-family: Inter;
+    font-size: 30px;
+    font-style: normal;
+    font-weight: 900;
+    line-height: normal;
+    width: 574px; 
+    top: 5px;
+    left: 27px;
     position: absolute;
 }
 
 .schedule_list {
     background: rgba(224, 242, 241, 0.60);
     border-radius: 60px
+}
+
+
+.circle {
+  fill:none;
+  stroke-dasharray: 754;
+  stroke-dashoffset: 754;
+  animation: progress 1.5s ease-in-out infinite;
+  transform-origin: center;
+  transform: rotate(-90deg);
+  }
+  @keyframes progress {
+    100%
+    {
+      stroke-dashoffset: 0;
+    }
 }

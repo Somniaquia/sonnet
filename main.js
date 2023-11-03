@@ -52,7 +52,7 @@ function createOrToggleSplashWindow() {
             } else {
                 splashWindowActivated = true;
                 splashWindow.setPosition(0, 0, false);
-                splashWindow.setSize(width / 3, height, false);
+                splashWindow.setSize(parseInt(width / 3, 10), height, false);
                 clearInterval(showInterval);
                 splashWindow.focus();
             }
@@ -70,11 +70,11 @@ function createOrToggleSplashWindow() {
             if (x >= -width / 3) {
                 x -= 10;
                 splashWindow.setPosition(x, 0, false);
-                splashWindow.setSize(width / 3, height, false);
+                splashWindow.setSize(parseInt(width / 3, 10), height, false);
             } else {
                 splashWindowActivated = false;
-                splashWindow.setPosition(-width / 3, 0, false);
-                splashWindow.setSize(width / 3, height, false);
+                splashWindow.setPosition(-parseInt(width / 3, 10), false);
+                splashWindow.setSize(parseInt(width / 3, 10), height, false);
                 clearInterval(hideInterval);
             }
         }, 1);
@@ -127,7 +127,7 @@ app.whenReady().then(() => {
     // blockerProcess.stdout.on('data', (data) => { console.log(`${data.slice(0, -1)}`); });
     // blockerProcess.stderr.on('data', (data) => { console.log(`${data.slice(0, -1)}`); });
 
-    const transcriptorProcess = spawn('C:\\Users\\Somni\\anaconda3\\envs\\torch\\python.exe', ['-u', 'backend\\backend.py'], { studio: 'pipe' });
+    const transcriptorProcess = spawn('/usr/bin/python3', ['-u', 'backend/backend.py'], { studio: 'pipe' });
     transcriptorProcess.stdout.on('data', (data) => { console.log(`${data.slice(0, -1)}`); });
     transcriptorProcess.stderr.on('data', (data) => { console.log(`${data.slice(0, -1)}`); });
 });
