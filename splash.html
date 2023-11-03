@@ -1,30 +1,68 @@
-<!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UI_TEST</title>
     <link rel="stylesheet" href="splash.css">
-    <title>Electron App</title>
 </head>
 
-<body>
-    <div class="container">
-        <div class="left-panel">
-            <div class="activating-circle"></div>
-            <div class="schedule-list">
-                <div class="schedule-item">Schedule 1</div>
-                <div class="schedule-item">Schedule 2</div>
-            </div>
-            <div class="question-box">
-                <input type="text" placeholder="enter your question">
+<body style="position: absolute; overflow: hidden;">
+    <div style="width: 100vw; height: 100vh; position: relative; border: solid 1px black; transform: scale(75%); transform-origin: top left;">
+        <div id="main_menu"></div>
+        <div style="width: 300px; height: 300px; left: 55px; top: 50px; ">
+            <div style="width: 300px; height: 300px; left: 0px; top: 0px; " class="boarder_back"></div>
+            <div
+                style="width: 191.25px; height: 31.88px; left: 54.38px; top: 134.06px; text-align: center; color: #00EA00; font-size: 22px; font-family: Inter; font-weight: 900; word-wrap: break-word">
+                ACTIVATING</div>
+            <div style="left: 23px; top: 23px;">
+                <svg width="254" height="254" viewBox="0 0 254 254" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="127" cy="127" r="120.062" stroke="#02B373" stroke-width="13" />
+                </svg>
             </div>
         </div>
-        <div class="right-panel">
-            <h2 class="schedule-name">schedule name</h2>
-            <p class="schedule-description">explanation of schedule</p>
-            <div class="blocked-websites">Blocked Websites List</div>
+        <div style="width: 316px; height: 300px; left: 383px; top: 50px; " class="boarder_back"></div>
+        <div style="width: 648px; height: 300px; left: 51px; top: 371px;">
+            <div
+                style="width: 648px; height: 300px; left: 0px; top: 0px; background: rgba(105.36, 172.96, 164.59, 0.50)">
+            </div>
+            <div style="width: 614px; height: 45px; left: 16px; top: 184px;" class="schedule_list"></div>
+            <div style="width: 614px; height: 45px; left: 16px; top: 237px;" class="schedule_list"></div>
+            <div style="width: 614px; height: 45px; left: 16px; top: 131px;" class="schedule_list"></div>
+            <div
+                style="width: 614px; height: 48px; left: 16px; top: 17px; background: rgba(2, 179, 115, 0.70); border-radius: 60px">
+            </div>
+            <div
+                style="left: 43px; top: 21px; text-align: center; color: white; font-size: 30px; font-family: Inter; font-weight: 900; word-wrap: break-word">
+                schedule list</div>
         </div>
+        <div style="width: 648.36px; height: 409px; left: 51px; top: 691px; ">
+            <div style="width: 648.36px; height: 409px; left: 0px; top: 0px;" class="boarder_back"></div>
+            <div
+                style="width: 616.41px; height: 52.89px; left: 15.97px; top: 14.99px; background: rgba(224, 242, 241, 0.60); border-radius: 25px">
+            </div>
+            <div style="width: 31.95px; height: 29.97px; left: 31.01px; top: 26.44px; background: black"></div>
+            <div
+                style="width: 29.97px; height: 0px; left: 79.87px; top: 26.44px; transform: rotate(90deg); transform-origin: 0 0; border: 1px black solid">
+            </div>
+            <div
+                style="width: 464.19px; height: 29.09px; left: 98.66px; top: 27.33px; color: black; font-size: 30px; font-family: Inter; font-weight: 900; word-wrap: break-word">
+                enter your question</div>
+        </div>
+        <div
+            style="width: 280px; height: 72px; left: 401px; top: 70px; background: rgba(2, 179, 115, 0.70); border-radius: 20px">
+        </div>
+        <div
+            style="width: 231px; height: 42px; left: 425px; top: 85px; text-align: center; color: white; font-size: 30px; font-family: Inter; font-style: italic; font-weight: 800; word-wrap: break-word">
+            schedule name</div>
+        <div
+            style="width: 280px; height: 153.50px; left: 401px; top: 152px; opacity: 0.60; background: #53BCA9; border-radius: 20px">
+        </div>
+        <div
+            style="left: 459px; top: 199px; text-align: center; color: black; font-size: 22px; font-family: Inter; font-weight: 900; word-wrap: break-word">
+            explanation of <br />schedule</div>
+        <div
+            style="left: 452px; top: 317px; text-align: center; color: rgba(0, 105, 92, 0.53); font-size: 16px; font-family: Inter; font-weight: 900; word-wrap: break-word">
+            Blocked Websites List</div>
+        <div style="width: 614px; height: 45px; left: 67px; top: 449px;" class="schedule_list"></div>
     </div>
 </body>
 

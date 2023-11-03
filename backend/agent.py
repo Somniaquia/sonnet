@@ -43,11 +43,13 @@ class ConversationSession:
         if save_path == None:
             self.promptResponsePairs = []
             self.date = date.today()
+            self.summarization = ""
         else:
             with open(save_path, 'r') as f:
                 data = json.load(f)
                 self.date = date.fromisoformat(data['date'])
                 self.promptResponsePairs = [PromptResponsePair.from_dict(pair) for pair in data['promptResponsePairs']]
+                self.summarization = date.fromisoformat(data['summarization'])
 
                 print(self.disentangle(False)) 
 
@@ -55,7 +57,8 @@ class ConversationSession:
         with open(save_path, 'w') as f:
             json.dump({
                 'date': self.date.isoformat(),
-                'promptResponsePairs': [pair.to_dict() for pair in self.promptResponsePairs]
+                'summarization': self.summarization,
+                'promptResponsePairs': [pair.to_dict() for pair in self.promptResponsePairs],
             }, f, indent=4)
 
     def reminisce(self, prompt):
@@ -118,6 +121,12 @@ class ConversationSession:
 
         self.save("conversationSessions/temp")
 
+    def summarize(self):
+        self.summarization = llm.predict(f"Summarize what topics were talked about in this conversation session: \n\n{self.disentangle(True)}")
+        
+        
+        return self.summarization
+
 class Agent:
     @staticmethod
     def promptURL(url, context, explanation):
@@ -132,10 +141,20 @@ class Agent:
         response = llm.predict(prompt).lower()
         print(response)
         return response
+    
+    @staticmethod
+    def prompt(prompt):
+        session_path = "conversationSessions"
+        sessions_list = [f for f in os.listdir(session_path) if os.path.isfile(os.path.join(session_path, f))]
+
+        for session in sessions_list:
+            session = ConversationSession(session)
+
+            session.summarization
+
 
 if __name__ == "__main__":
     memory_path = "conversationSessions/temp" if os.path.isfile("conversationSessions/temp") else None
 
-    session = ConversationSession(memory_path)
     while True:
-        session.prompt(input(">>>"))
+        Agent.prompt(input(">>>"))

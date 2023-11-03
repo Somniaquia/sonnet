@@ -34,37 +34,44 @@ let showInterval, hideInterval;
 let splashWindowActivated = false;
 
 function createOrToggleSplashWindow() {
-    function driftWindowToShow() {
-        clearInterval(hideInterval); 
-        const { width, height } = electron.screen.getPrimaryDisplay().workAreaSize;
-        splashWindow.setSize(width / 3, height, false);
-        let x = -width / 3;
-        splashWindow.setPosition(x, 0);
 
+    function driftWindowToShow() {
+        clearInterval(showInterval);
+        clearInterval(hideInterval);
+
+        const { width, height } = electron.screen.getPrimaryDisplay().workAreaSize;
+        let x = splashWindow.getPosition()[0];
+        
         showInterval = setInterval(() => {
             if (x < 0) {
                 x += 10;
                 splashWindow.setPosition(x, 0, false);
+                splashWindow.setSize(width / 3, height, false);
             } else {
                 splashWindowActivated = true;
+                splashWindow.setSize(width / 3, height, false);
                 splashWindow.setPosition(0, 0, false);
                 clearInterval(showInterval);
+                splashWindow.focus();
             }
         }, 1);
     }
 
     function driftWindowToHide() {
         clearInterval(showInterval);
-        const { width, height } = electron.screen.getPrimaryDisplay().workAreaSize;
-        splashWindow.setSize(width / 3, height, false);
-        let x = splashWindow.getPosition()[0];
+        clearInterval(hideInterval);
 
+        const { width, height } = electron.screen.getPrimaryDisplay().workAreaSize;
+        let x = splashWindow.getPosition()[0];
+        
         hideInterval = setInterval(() => {
             if (x >= -width / 3) {
                 x -= 10;
                 splashWindow.setPosition(x, 0, false);
+                splashWindow.setSize(width / 3, height, false);
             } else {
                 splashWindowActivated = false;
+                splashWindow.setSize(width / 3, height, false);
                 splashWindow.setPosition(-width / 3, 0, false);
                 clearInterval(hideInterval);
             }
@@ -91,13 +98,14 @@ function createOrToggleSplashWindow() {
             resizable: false,
             webPreferences: {
                 nodeIntegration: true
-            }
+            },
+            show: false
         });
         
         splashWindow.loadFile('splash.html');
-        
         splashWindow.once('ready-to-show', () => {
-            splashWindow.setHasShadow(false);
+            canvasWindow.setHasShadow(false);
+            canvasWindow.show();
             driftWindowToShow();
         });
         

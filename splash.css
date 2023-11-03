@@ -1,79 +1,22 @@
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
+#main_menu {
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.50);
+    backdrop-filter: blur(10px);
+    width: 700px;
+    height: 1100px;
+    flex-shrink: 0;
 }
 
-.container {
-    display: flex;
-    height: 100vh;
-    border-radius: 20px;
-    background-color: rgba(255, 255, 255, 0.3);
+.boarder_back {
+    background: rgba(105.36, 172.96, 164.59, 0.50);
 }
 
-.left-panel {
-    flex: 1;
-    padding: 20px;
-    border-radius: 15px;
-    background-color: rgba(255, 255, 255, 0.7);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+div {
+    border-radius: 40px;
+    position: absolute;
 }
 
-.right-panel {
-    flex: 1;
-    padding: 20px;
-    border-radius: 15px;
-    background-color: #ffffff79;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.activating-circle {
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    background-color: #00CC66;
-    margin-bottom: 20px;
-}
-
-.schedule-list {
-    flex: 1;
-    width: 100%;
-    overflow-y: auto;
-    margin-bottom: 20px;
-}
-
-.schedule-item {
-    background-color: #e1e1e1;
-    padding: 10px;
-    margin: 10px 0;
-    border-radius: 5px;
-}
-
-.question-box input {
-    width: 100%;
-    padding: 10px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-}
-
-.schedule-name {
-    font-size: 24px;
-    margin-bottom: 10px;
-}
-
-.schedule-description {
-    font-size: 16px;
-    margin-bottom: 20px;
-}
-
-.blocked-websites {
-    background-color: #e1e1e1;
-    padding: 10px;
-    width: 100%;
-    text-align: center;
-    border-radius: 5px;
+.schedule_list {
+    background: rgba(224, 242, 241, 0.60);
+    border-radius: 60px
 }
