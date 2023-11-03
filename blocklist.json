@@ -1,0 +1,35 @@
+{
+    "studying mathematics": {
+        "blocked": [
+            "CalculatorApp.exe",
+            "Video.UI.exe"
+        ],
+        "ignored": [
+            "firefox.exe",
+            "Notepad.exe",
+            "BackgroundTransferHost.exe",
+            "WmiApSrv.exe",
+            "dllhost.exe",
+            "sppsvc.exe",
+            "Spotify.exe",
+            "CTMsgHostFirefox.exe",
+            "git.exe",
+            "AsusSoftwareManagerAgent.exe",
+            "WmiPrvSE.exe",
+            "OpenConsole.exe",
+            "taskhostw.exe",
+            "Code.exe",
+            "MoUsoCoreWorker.exe",
+            "backgroundTaskHost.exe",
+            "smartscreen.exe",
+            "AsusHotkey.exe",
+            "Todo.exe",
+            "conhost.exe",
+            "git-remote-https.exe",
+            "electron.exe",
+            "svchost.exe",
+            "WindowsTerminal.exe",
+            "RuntimeBroker.exe"
+        ]
+    }
+}

@@ -1,0 +1,6 @@
+langchain
+psutil
+assemblyai
+openai
+websockets
+asyncio
