@@ -16,7 +16,8 @@ function createCanvasWindow() {
         alwaysOnTop: true,
         resizable: false,
         webPreferences: {
-            nodeIntegration: true
+            nodeIntegration: true,
+            webSecurity: false
         },
         show: false
     });
@@ -101,7 +102,10 @@ function createOrToggleSplashWindow() {
             webPreferences: {
                 nodeIntegration: true
             },
-            show: false
+            show: false,
+            webPreferences:{
+                webSecurity: false
+            }
         });
         
         splashWindow.loadFile('splash.html');

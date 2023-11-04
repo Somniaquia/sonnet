@@ -5,7 +5,8 @@ const ws = new WebSocket('ws://127.0.0.1:3000');
 
 ws.onopen = function(){
     console.log('Connected to the python backend.');
-    sendToPython('{"type":"message", "context":"연결확인"}')
+    sendMessage('CONNECTED');
+    // sendMessage(getCurrentSchedule());
 };
 ws.onclose = function(){
     console.log('Disconnected');
@@ -39,9 +40,9 @@ input.addEventListener("keypress", function (event) {
 
 function sendMessage(message) {
     if (ws.readyState === WebSocket.OPEN) {
-        let string = `{"message": "${message}"}`
-        console.log(JSON.parse(string));
-        ws.send(JSON.parse(string));
+        let string = `{"type":"msg","context": "${message}"}`
+        // console.log(JSON.parse(string));
+        ws.send(string);
     } else {
         console.error('WebSocket is not open.');
     }
@@ -85,15 +86,14 @@ async function onActivationClicked(){
 function closeSplash(){
     window.close();
 }
+
+
 function getCurrentSchedule(){
     try {
-        const data = fs.readFileSync('blocklist.json', 'utf8');
-        const jsonData = JSON.parse(data);
+        const jsonData = fetch('./blocklist.json');
         console.log(jsonData);
     } catch (err) {
         console.error(err);
     }
-    return jsonData.current
-
+    return jsonData;
 }
-console.log(getCurrentSchedule())
