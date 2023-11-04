@@ -6,7 +6,6 @@ import os
 from datetime import date, datetime
 
 from transpeaker import Transpeaker
-#FIXME: 안녕
 
 load_dotenv()
 api_key = os.getenv('OPENAI_KEY')

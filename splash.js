@@ -1,6 +1,6 @@
-const WebSocket = require('ws');
-const remote = require('electron').remote;
-const fs = require('fs');
+// const WebSocket = require('ws');
+// const remote = require('electron').remote;
+// const fs = require('fs');
 
 const ws = new WebSocket('ws://127.0.0.1:3000');
 
