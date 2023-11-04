@@ -1,7 +1,9 @@
 {
+    "type":"blocklist",
     "activating": false,
     "current": "studying mathematics",
     "studying mathematics": {
+        "explanation":"I shouldn't be procrastinating by programming, drawing, composing, browsing trivial stuff on internet.",
         "blocked": [
             "CalculatorApp.exe",
             "Video.UI.exe",
