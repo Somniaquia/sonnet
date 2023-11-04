@@ -5,6 +5,7 @@ const ws = new WebSocket('ws://127.0.0.1:3000');
 
 ws.onopen = function(){
     console.log('Connected to the python backend.');
+    sendToPython('{"type":"message", "context":"연결확인"}')
 };
 ws.onclose = function(){
     console.log('Disconnected');

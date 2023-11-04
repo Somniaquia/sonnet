@@ -145,7 +145,7 @@ class Agent:
     @staticmethod
     def prompt(prompt):
         session_path = "conversationSessions"
-        sessions_list = [f for f in os.listdir(session_path) if os.path.isfile(os.path.join(session_path, f))]
+        sessions_list = [session_path+"/"+f for f in os.listdir(session_path) if os.path.isfile(os.path.join(session_path, f))]
 
         for session in sessions_list:
             session = ConversationSession(session)
