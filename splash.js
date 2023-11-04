@@ -85,3 +85,15 @@ async function onActivationClicked(){
 function closeSplash(){
     window.close();
 }
+function getCurrentSchedule(){
+    try {
+        const data = fs.readFileSync('blocklist.json', 'utf8');
+        const jsonData = JSON.parse(data);
+        console.log(jsonData);
+    } catch (err) {
+        console.error(err);
+    }
+    return jsonData.current
+
+}
+console.log(getCurrentSchedule())

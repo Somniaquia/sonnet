@@ -38,23 +38,34 @@ class PromptResponsePair:
         pair.summarization = data['summarization']
         return pair
 
+def get_non_conflicting_filename(base_dir, base_name, extension):
+    n = 0
+    while True:
+        filename = f"{base_name}_{n}.{extension}"
+        file_path = os.path.join(base_dir, filename)
+        if not os.path.exists(file_path):
+            return file_path
+        n += 1
+
 class ConversationSession:
-    def __init__(self, save_path = None):
-        if save_path == None:
+    def __init__(self, load_path = None):
+        if load_path == None:
             self.promptResponsePairs = []
             self.date = date.today()
-            self.summarization = ""
+            self.summarization = None
+
+            self.load_path = get_non_conflicting_filename("conversationSessions", "session", "json")
         else:
-            with open(save_path, 'r') as f:
+            with open(load_path, 'r') as f:
                 data = json.load(f)
                 self.date = date.fromisoformat(data['date'])
                 self.promptResponsePairs = [PromptResponsePair.from_dict(pair) for pair in data['promptResponsePairs']]
-                self.summarization = date.fromisoformat(data['summarization'])
+                self.summarization = data['summarization']
 
-                print(self.disentangle(False)) 
+                # print(self.disentangle(False))
 
-    def save(self, save_path):
-        with open(save_path, 'w') as f:
+    def save(self):
+        with open(self.load_path, 'w') as f:
             json.dump({
                 'date': self.date.isoformat(),
                 'summarization': self.summarization,
@@ -119,12 +130,11 @@ class ConversationSession:
         summarization = pair.summarize()
         print(f"\n{summarization}")
 
-        self.save("conversationSessions/temp")
+        self.save()
 
     def summarize(self):
         self.summarization = llm.predict(f"Summarize what topics were talked about in this conversation session: \n\n{self.disentangle(True)}")
-        
-        
+        self.save()
         return self.summarization
 
 class Agent:
@@ -145,16 +155,46 @@ class Agent:
     @staticmethod
     def prompt(prompt):
         session_path = "conversationSessions"
-        sessions_list = [session_path+"/"+f for f in os.listdir(session_path) if os.path.isfile(os.path.join(session_path, f))]
+        session_directories_list = [session_path+"/"+f for f in os.listdir(session_path) if os.path.isfile(os.path.join(session_path, f))]
 
-        for session in sessions_list:
+        options = f'''This is the message sent by the user: "{prompt}".\n\nFollowing are summarizations of conversation sessions from the past, in format of 'session n: Summarization'. Decide what sessions to view underlying conversations below the summarization by typing their associated number (n) seperated with commas (ex: '0,1,2,3,13,14' without quote marks). Do not type anything except numbers and commas: \n\n'''
+
+        for i, session in enumerate(session_directories_list):
             session = ConversationSession(session)
+            #{self.date}, {(date.today() - self.date).days} days ago
+            if session.summarization == None:
+                session.summarize()
 
-            session.summarization
+            options += f"Session {i} from {session.date}: {session.summarization}\n"
+
+        while True:
+            choices = llm.predict(options)
+
+            if choices == "":
+                pair_numbers = []
+                break
+
+            try:
+                pair_numbers = list(map(int, choices.split(",")))
+            except Exception as e:
+                print(e)
+                continue
+            
+            break
+        
+        reminiscence = ""
+        for i in pair_numbers:
+            session = ConversationSession(session_directories_list[i])
+            reminiscence += f"Chat session from {session.date}: \n{session.reminisce(prompt)}\n"
+
+        prompt = reminiscence + prompt
+        print(f"\n(Reminiscence)\n{prompt}")
+
+        response = llm.predict(prompt)
+        print(response)
+        return response
 
 
 if __name__ == "__main__":
-    memory_path = "conversationSessions/temp" if os.path.isfile("conversationSessions/temp") else None
-
     while True:
         Agent.prompt(input(">>>"))
