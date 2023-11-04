@@ -122,11 +122,12 @@ app.whenReady().then(() => {
     globalShortcut.register('CommandOrControl+Alt+P', createOrToggleSplashWindow);
 
     console.log(canvasWindow.y)
-
     // const blockerProcess = spawn('C:\\Users\\Somni\\anaconda3\\envs\\torch\\python.exe', ['-u', 'backend\\blocker.py'], { studio: 'pipe' });
-    // blockerProcess.stdout.on('data', (data) => { console.log(`${data.slice(0, -1)}`); });
-    // blockerProcess.stderr.on('data', (data) => { console.log(`${data.slice(0, -1)}`); });
+    const blockerProcess = spawn('/usr/bin/python3', ['-u', 'backend/blocker.py'], { studio: 'pipe' });
+    blockerProcess.stdout.on('data', (data) => { console.log(`${data.slice(0, -1)}`); });
+    blockerProcess.stderr.on('data', (data) => { console.log(`${data.slice(0, -1)}`); });
 
+    // const blockerProcess = spawn('C:\\Users\\Somni\\anaconda3\\envs\\torch\\python.exe', ['-u', 'backend\\backend.py'], { studio: 'pipe' });
     const transcriptorProcess = spawn('/usr/bin/python3', ['-u', 'backend/backend.py'], { studio: 'pipe' });
     transcriptorProcess.stdout.on('data', (data) => { console.log(`${data.slice(0, -1)}`); });
     transcriptorProcess.stderr.on('data', (data) => { console.log(`${data.slice(0, -1)}`); });

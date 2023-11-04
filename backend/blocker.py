@@ -33,7 +33,7 @@ context = "studying mathematics"
 explanation = "I shouldn't be procrastinating by programming, drawing, composing, browsing trivial stuff on internet."
 blacklist_process_names, ignored_process_names = load_blocklist(context)
 
-def get_current_processes(ignored_process_names):
+def get_current_processes():
     return set([process for process in psutil.process_iter(['pid', 'name']) if process.info['name'] not in ignored_process_names])
 
 def kill_process_by_name(process_name):
