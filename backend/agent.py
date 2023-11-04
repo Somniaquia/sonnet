@@ -81,7 +81,7 @@ class ConversationSession:
 
         while True:
             summarized = self.disentangle(False)
-            reminiscence = f'''This is the message sent by the user: "{prompt}".\n\nFollowing is a detailed summarization of a conversation session from {self.date}, {(date.today() - self.date).days} days ago, in format of 'Pair n: Summarization'. Decide what pairs to view underlying conversations below the summarization by typing their associated number (n) seperated with commas (ex: '0,1,2,3,13,14' without quote marks). Do not type anything except numbers and commas and only choose up to 3 numbers: \n\n{summarized}'''
+            reminiscence = f'''This is the message sent by the user: "{prompt}".\n\nFollowing is a detailed summarization of a conversation session from {self.date}, {(date.today() - self.date).days} days ago, in format of 'Pair n: Summarization'. Decide what pairs to view underlying conversations below the summarization by typing their associated number (n) seperated with commas (ex: '0,1,2,3,13,14' without quote marks). Do not type anything except numbers and commas and only choose directly involved in the context: \n\n{summarized}'''
             response = llm.predict(reminiscence).strip()
             
             if response == "":
@@ -165,7 +165,7 @@ class Agent:
         session_paths = "conversationSessions"
         session_directories_list = [session_paths+"/"+f for f in os.listdir(session_paths) if os.path.isfile(os.path.join(session_paths, f))]
 
-        options = f'''This is the message sent by the user: "{prompt}".\n\nFollowing are summarizations of conversation sessions from the past, in format of 'session n: Summarization'. Decide what sessions to view underlying conversations below the summarization by typing their associated number (n) seperated with commas (ex: '0,1,2,13,14' without quote marks). Do not type anything except numbers and commas and only choose up to 3 sessions: \n\n'''
+        options = f'''This is the message sent by the user: "{prompt}".\n\nFollowing are summarizations of conversation sessions from the past, in format of 'session n: Summarization'. Decide what sessions to view underlying conversations below the summarization by typing their associated number (n) seperated with commas (ex: '0,1,2,13,14' without quote marks). Do not type anything except numbers and commas and only choose directly involved in the context: \n\n'''
 
         for i, session in enumerate(session_directories_list):
             session = ConversationSession(session)
