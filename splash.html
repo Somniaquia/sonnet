@@ -1,12 +1,11 @@
 <html>
 <!-- TODO: Replace div objects into text boxes  -->
 <head>
-    <title>UI_TEST</title>
+    <title></title>
     <link rel="stylesheet" href="splash.css">
 </head>
 
 <body style="position: absolute; overflow: hidden; background-color: rgb(0, 0, 0, 0);">
-    <script src="splash.js"></script>
     <div style="width: 100vw; height: 100vh; position: relative; transform: scale(70%); transform-origin: top left;">
         <div id="main_menu"></div>
         <a href="#" onclick="closeSplash()" id="close_btn" style="color: rgba(0, 0, 0, 0.70); text-align: center;font-family: Inter; font-size: 20px;font-style: normal;width: 14px; height: 27px; font-weight: 400;line-height: normal; display: block; position: absolute; top: 26; left: 720; text-decoration: none;">X</a>
@@ -14,8 +13,8 @@
         <a style="width: 300px; height: 300px; display: block;" onclick="onActivationClicked()" href="#" id="activation">
             <div style="width: 300px; height: 300px; left: 0px; top: 0px; " class="boarder_back"></div>
             <div
-                style="width: 191.25px; height: 31.88px; left: 54.38px; top: 134.06px; text-align: center; color: #00EA00; font-size: 22px; font-family: Inter; font-weight: 900; word-wrap: break-word">
-                ACTIVATING</div>
+            style="width: 191.25px; height: 31.88px; left: 54.38px; top: 134.06px; text-align: center; color: #00EA00; font-size: 22px; font-family: Inter; font-weight: 900; word-wrap: break-word">
+            ACTIVATING</div>
             <div style="left: 23px; top: 23px;">
                 <svg width="254" height="254" viewBox="0 0 254 254" fill="none" xmlns="http://www.w3.org/2000/svg" id="circle_container">
                     <circle cx="127" cy="127" r="120.062" stroke="#02B373" stroke-width="13" id="dark_green" style="z-index: 1;" />
@@ -33,43 +32,44 @@
             <div style="width: 614px; height: 45px; left: 16px; top: 237px;" class="schedule_list"><span class="schedule_list_text">-EMPTY-</span></div>
             <div style="width: 614px; height: 45px; left: 16px; top: 131px;" class="schedule_list"><span class="schedule_list_text">-EMPTY-</span></div>
             <div
-                style="width: 614px; height: 48px; left: 16px; top: 17px; background: rgba(2, 179, 115, 0.70); border-radius: 60px">
-            </div>
+            style="width: 614px; height: 48px; left: 16px; top: 17px; background: rgba(2, 179, 115, 0.70); border-radius: 60px">
+        </div>
             <div
-                style="left: 43px; top: 21px; text-align: center; color: white; font-size: 30px; font-family: Inter; font-weight: 900; word-wrap: break-word">
-                schedule list</div>
+            style="left: 43px; top: 21px; text-align: center; color: white; font-size: 30px; font-family: Inter; font-weight: 900; word-wrap: break-word">
+            schedule list</div>
         </div>
         <div style="width: 648.36px; height: 409px; left: 51px; top: 691px; ">
             <div style="width: 648.36px; height: 409px; left: 0px; top: 0px;" class="boarder_back"></div>
-            <input placeholder="PROMPT AI" style="padding-left: 90px;width: 616.41px; height: 52.89px; left: 15.97px; top: 14.99px; background: rgba(224, 242, 241, 0.60); border-radius: 25px; font-size: 30px; font-family: Inter; font-weight: 900;"></input>
+            <input id="promptBox" placeholder="PROMPT AI" style="padding-left: 90px;width: 616.41px; height: 52.89px; left: 15.97px; top: 14.99px; background: rgba(224, 242, 241, 0.60); border-radius: 25px; font-size: 30px; font-family: Inter; font-weight: 900;"></input>
             <div style="width: 31.95px; height: 29.97px; left: 31.01px; top: 26.44px;">
-            <svg width="33" height="30" viewBox="0 0 33 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <g id="&#240;&#159;&#166;&#134; icon &#34;magnifying glass&#34;">
-                <path id="Vector" d="M14.308 0.0371262C6.41815 0.0371262 0 5.86593 0 13.0313C0 20.1966 6.41815 26.0254 14.308 26.0254C16.7199 26.0254 19.0909 25.5057 21.094 24.5033C21.2545 24.6786 21.4324 24.8402 21.6255 24.9859L25.7135 28.6985C26.0909 29.0843 26.5512 29.3959 27.0661 29.6142C27.581 29.8325 28.1396 29.953 28.7076 29.9682C29.2755 29.9834 29.841 29.893 30.3691 29.7025C30.8972 29.5121 31.3769 29.2256 31.7787 28.8607C32.1805 28.4958 32.496 28.0601 32.7057 27.5805C32.9154 27.1009 33.0149 26.5874 32.9982 26.0715C32.9815 25.5557 32.8488 25.0484 32.6084 24.5808C32.368 24.1132 32.0249 23.6952 31.6002 23.3524L27.5122 19.6397C27.313 19.4588 27.0938 19.2971 26.8581 19.1571C27.9619 17.3379 28.6568 15.2217 28.6568 12.9942C28.6568 5.82881 22.2387 0 14.3488 0L14.308 0.0371262ZM14.308 3.74974C19.9903 3.74974 24.5279 7.87075 24.5279 13.0313C24.5279 15.4816 23.5468 17.7463 21.8299 19.417C21.789 19.4541 21.7481 19.4912 21.7072 19.5284C21.5141 19.6741 21.3362 19.8356 21.1758 20.011C19.3771 21.496 16.9243 22.35 14.2671 22.35C8.58478 22.35 4.04711 18.2289 4.04711 13.0684C4.04711 7.90787 8.58478 3.78687 14.2671 3.78687L14.308 3.74974Z" fill="black"/>
+                <svg width="33" height="30" viewBox="0 0 33 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <g id="&#240;&#159;&#166;&#134; icon &#34;magnifying glass&#34;">
+                        <path id="Vector" d="M14.308 0.0371262C6.41815 0.0371262 0 5.86593 0 13.0313C0 20.1966 6.41815 26.0254 14.308 26.0254C16.7199 26.0254 19.0909 25.5057 21.094 24.5033C21.2545 24.6786 21.4324 24.8402 21.6255 24.9859L25.7135 28.6985C26.0909 29.0843 26.5512 29.3959 27.0661 29.6142C27.581 29.8325 28.1396 29.953 28.7076 29.9682C29.2755 29.9834 29.841 29.893 30.3691 29.7025C30.8972 29.5121 31.3769 29.2256 31.7787 28.8607C32.1805 28.4958 32.496 28.0601 32.7057 27.5805C32.9154 27.1009 33.0149 26.5874 32.9982 26.0715C32.9815 25.5557 32.8488 25.0484 32.6084 24.5808C32.368 24.1132 32.0249 23.6952 31.6002 23.3524L27.5122 19.6397C27.313 19.4588 27.0938 19.2971 26.8581 19.1571C27.9619 17.3379 28.6568 15.2217 28.6568 12.9942C28.6568 5.82881 22.2387 0 14.3488 0L14.308 0.0371262ZM14.308 3.74974C19.9903 3.74974 24.5279 7.87075 24.5279 13.0313C24.5279 15.4816 23.5468 17.7463 21.8299 19.417C21.789 19.4541 21.7481 19.4912 21.7072 19.5284C21.5141 19.6741 21.3362 19.8356 21.1758 20.011C19.3771 21.496 16.9243 22.35 14.2671 22.35C8.58478 22.35 4.04711 18.2289 4.04711 13.0684C4.04711 7.90787 8.58478 3.78687 14.2671 3.78687L14.308 3.74974Z" fill="black"/>
                 </g>
             </svg>
-            </div>
+        </div>
             <div
-                style="width: 29.97px; height: 0px; left: 79.87px; top: 26.44px; transform: rotate(90deg); transform-origin: 0 0; border: 1px black solid">
+            style="width: 29.97px; height: 0px; left: 79.87px; top: 26.44px; transform: rotate(90deg); transform-origin: 0 0; border: 1px black solid">
             </div>
         </div>
         <div
             style="width: 280px; height: 72px; left: 401px; top: 70px; background: rgba(2, 179, 115, 0.70); border-radius: 20px">
         </div>
         <div
-            style="width: 231px; height: 42px; left: 425px; top: 85px; text-align: center; color: white; font-size: 30px; font-family: Inter; font-style: italic; font-weight: 800; word-wrap: break-word">
-            schedule name</div>
+        style="width: 231px; height: 42px; left: 425px; top: 85px; text-align: center; color: white; font-size: 30px; font-family: Inter; font-style: italic; font-weight: 800; word-wrap: break-word">
+        schedule name</div>
         <div
-            style="width: 280px; height: 153.50px; left: 401px; top: 152px; opacity: 0.60; background: #53BCA9; border-radius: 20px">
-        </div>
-        <div
-            style="left: 459px; top: 199px; text-align: center; color: black; font-size: 22px; font-family: Inter; font-weight: 900; word-wrap: break-word">
-            explanation of <br />schedule</div>
-        <div
-            style="left: 452px; top: 317px; text-align: center; color: rgba(0, 105, 92, 0.53); font-size: 16px; font-family: Inter; font-weight: 900; word-wrap: break-word">
-            Blocked Websites List</div>
+        style="width: 280px; height: 153.50px; left: 401px; top: 152px; opacity: 0.60; background: #53BCA9; border-radius: 20px">
+    </div>
+    <div
+    style="left: 459px; top: 199px; text-align: center; color: black; font-size: 22px; font-family: Inter; font-weight: 900; word-wrap: break-word">
+    explanation of <br />schedule</div>
+    <div
+    style="left: 452px; top: 317px; text-align: center; color: rgba(0, 105, 92, 0.53); font-size: 16px; font-family: Inter; font-weight: 900; word-wrap: break-word">
+    Blocked Websites List</div>
         <div style="width: 614px; height: 45px; left: 67px; top: 449px;" class="schedule_list"><span class="schedule_list_text">-EMPTY-</span></div>
     </div>
+    <script src="splash.js"></script>
 </body>
 
 </html>

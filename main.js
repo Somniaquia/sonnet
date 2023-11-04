@@ -52,7 +52,7 @@ function createOrToggleSplashWindow() {
             } else {
                 splashWindowActivated = true;
                 splashWindow.setPosition(0, 0, false);
-                splashWindow.setSize(parseInt(width / 3, 10), height, false);
+                splashWindow.setSize(Math.round(width / 3), height, false);
                 clearInterval(showInterval);
                 splashWindow.focus();
             }
@@ -70,11 +70,11 @@ function createOrToggleSplashWindow() {
             if (x >= -width / 3) {
                 x -= 10;
                 splashWindow.setPosition(x, 0, false);
-                splashWindow.setSize(parseInt(width / 3, 10), height, false);
+                splashWindow.setSize(Math.round(width / 3), height, false);
             } else {
                 splashWindowActivated = false;
-                splashWindow.setPosition(-parseInt(width / 3, 10), false);
-                splashWindow.setSize(parseInt(width / 3, 10), height, false);
+                splashWindow.setPosition(-Math.round(width / 3), 0, false);
+                splashWindow.setSize(Math.round(width / 3), height, false);
                 clearInterval(hideInterval);
             }
         }, 1);
