@@ -7,7 +7,7 @@ from datetime import date
 
 from transpeaker import Transpeaker
 #FIXME: 안녕
-# 누구세요
+
 load_dotenv()
 api_key = os.getenv('OPENAI_KEY')
 llm = ChatOpenAI(openai_api_key=api_key, model_name='gpt-4')

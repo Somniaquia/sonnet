@@ -10,18 +10,37 @@ ws.onclose = function(){
     console.log('Disconnected');
 };
 
-ws.onmessage = function(data){
-    console.log('Received: %s', data);
-    // TODO: Receive GPT messages and display them on the text boxes
+ws.onmessage = function (event) {
+    console.log('Received: %s', event.data);
+
+    try {
+        const message = JSON.parse(event.data);
+        console.log('Response:', message.response);
+    } catch (e) {
+        console.error('Could not parse JSON:', e);
+    }
 };
 
 ws.onerror = function(error) {
     console.error('WebSocket error:', error);
 };
 
-function sendToPython(message) {
+var input = document.getElementById("promptBox");
+
+input.addEventListener("keypress", function (event) {
+    if (event.key === "Enter") {
+        event.preventDefault();
+        sendMessage(input.value)
+        input.value = ""
+        // document.getElementById("myBtn").click();
+    }
+}); 
+
+function sendMessage(message) {
     if (ws.readyState === WebSocket.OPEN) {
-        ws.send(message);
+        let string = `{"message": "${message}"}`
+        console.log(JSON.parse(string));
+        ws.send(JSON.parse(string));
     } else {
         console.error('WebSocket is not open.');
     }

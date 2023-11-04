@@ -6,11 +6,14 @@ import websockets
 
 async def echo(websocket, path):
     async for message in websocket:
-        print(f"Received message: {message}")
+        print(f"Backend received a message: {message}")
+        response = "fallback"
+        try:
+            response = Agent.prompt(json.loads(message)['message'])
+        except json.JSONDecodeError as e:
+            print(e)
 
-        Agent.prompt(json.message)
-
-        await websocket.send(f"Echo: {message}")
+        await websocket.send(json.dumps({"response": response}))
 
 start_server = websockets.serve(echo, "localhost", 3000)
 
