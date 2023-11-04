@@ -100,7 +100,8 @@ function createOrToggleSplashWindow() {
             alwaysOnTop: true,
             resizable: false,
             webPreferences: {
-                nodeIntegration: true
+                nodeIntegration: true,
+                contextIsolation: false
             },
             show: false,
             webPreferences:{
@@ -131,7 +132,7 @@ app.whenReady().then(() => {
     blockerProcess.stdout.on('data', (data) => { console.log(`${data.slice(0, -1)}`); });
     blockerProcess.stderr.on('data', (data) => { console.log(`${data.slice(0, -1)}`); });
 
-    // const blockerProcess = spawn('C:\\Users\\Somni\\anaconda3\\envs\\torch\\python.exe', ['-u', 'backend\\backend.py'], { studio: 'pipe' });
+    // const transcriptorProcess = spawn('C:\\Users\\Somni\\anaconda3\\envs\\torch\\python.exe', ['-u', 'backend\\backend.py'], { studio: 'pipe' });
     const transcriptorProcess = spawn('/usr/bin/python3', ['-u', 'backend/backend.py'], { studio: 'pipe' });
     transcriptorProcess.stdout.on('data', (data) => { console.log(`${data.slice(0, -1)}`); });
     transcriptorProcess.stderr.on('data', (data) => { console.log(`${data.slice(0, -1)}`); });

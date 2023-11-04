@@ -1,5 +1,6 @@
-// const WebSocket = require('ws');
-// const remote = require('electron').remote;
+const WebSocket = require('ws');
+const remote = require('electron').remote;
+const fs = require('fs');
 
 const ws = new WebSocket('ws://127.0.0.1:3000');
 
@@ -88,12 +89,14 @@ function closeSplash(){
 }
 
 
-function getCurrentSchedule(){
-    try {
-        const jsonData = fetch('./blocklist.json');
-        console.log(jsonData);
-    } catch (err) {
-        console.error(err);
-    }
+function getCurrentSchedule() {
+    const jsonData = fs.readFileSync("blocklist.json", 'utf8');
+    console.log(jsonData)
+    // try {
+        // let jsonData = fetch('./blocklist.json');
+        // console.log(jsonData);
+    // } catch (err) {
+        // console.error(err);
+    // }
     return jsonData;
 }
