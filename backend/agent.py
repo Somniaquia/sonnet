@@ -9,7 +9,8 @@ from transpeaker import Transpeaker
 
 load_dotenv()
 api_key = os.getenv('OPENAI_KEY')
-llm = ChatOpenAI(openai_api_key=api_key, model_name='gpt-4')
+gpt3_5 = ChatOpenAI(openai_api_key=api_key, model_name='gpt-4')
+gpt4 = ChatOpenAI(openai_api_key=api_key, model_name='gpt-3.5-turbo')
 
 class PromptResponsePair:
     def __init__(self, humanMessage, AIMessage):
@@ -22,7 +23,7 @@ class PromptResponsePair:
         return f"At {self.time} - User: {self.humanMessage}\nYou: {self.AIMessage}\n"
     
     def summarize(self):
-        self.summarization = llm.predict(f"Summarize in a single short sentence what this 'user message - your message pair' talks about, distinguishing between user's message and your message: \n{self.disentangle()}") + "\n"
+        self.summarization = gpt4.predict(f"Summarize in a single short sentence what this 'user message - your message pair' talks about, distinguishing between user's message and your message: \n{self.disentangle()}") + "\n"
         return self.summarization
     
     def to_dict(self):
@@ -54,7 +55,6 @@ class ConversationSession:
             self.promptResponsePairs = []
             self.date = date.today()
             self.summarization = None
-
             self.load_path = get_non_conflicting_filename("conversationSessions", "session", "json")
         else:
             with open(load_path, 'r') as f:
@@ -81,7 +81,7 @@ class ConversationSession:
         while True:
             summarized = self.disentangle(False)
             reminiscence = f'''This is the message sent by the user: "{prompt}".\n\nFollowing is a detailed summarization of a conversation session from {self.date}, {(date.today() - self.date).days} days ago, in format of 'Pair n: Summarization'. Decide what pairs to view underlying conversations below the summarization by typing their associated number (n) seperated with commas (ex: '0,1,2,3,13,14' without quote marks). Do not type anything except numbers and commas and only choose directly involved in the context: \n\n{summarized}'''
-            response = llm.predict(reminiscence).strip()
+            response = gpt4.predict(reminiscence).strip()
             
             if response == "":
                 pair_numbers = []
@@ -123,7 +123,7 @@ class ConversationSession:
         pseudo_system_message = "(You are an autonomous intelligent )"
         reminiscence = self.reminisce(prompt)
         print('\n' + reminiscence + prompt + '\n')
-        response = llm.predict(reminiscence + prompt)
+        response = gpt4.predict(reminiscence + prompt)
         print(response)
         Transpeaker.transpeak(response)
         pair = PromptResponsePair(prompt, response)
@@ -135,7 +135,7 @@ class ConversationSession:
         self.save()
 
     def summarize(self):
-        self.summarization = llm.predict(f"Summarize what topics were talked about in this conversation session: \n\n{self.disentangle(True)}")
+        self.summarization = gpt4.predict(f"Summarize what topics were talked about in this conversation session: \n\n{self.disentangle(True)}")
         self.save()
         return self.summarization
 
@@ -145,14 +145,14 @@ class Agent:
     @staticmethod
     def promptURL(url, context, explanation):
         prompt = f"Is browsing this url '{url}' considered procrastination in the context of {context}? When {context}, {explanation} Only answer with a single 'yes' or 'no', without the quote marks."
-        response = llm.predict(prompt).lower()
+        response = gpt4.predict(prompt).lower()
         print(response)
         return response
 
     @staticmethod
     def promptApp(app_name, context, explanation):
         prompt = f"Is using this application '{app_name}' considered procrastination in the context of {context}? When {context}, {explanation} Only answer with a single 'yes' or 'no', without the quote marks."
-        response = llm.predict(prompt).lower()
+        response = gpt4.predict(prompt).lower()
         print(response)
         return response
     
@@ -164,7 +164,7 @@ class Agent:
         session_paths = "conversationSessions"
         session_directories_list = [session_paths+"/"+f for f in os.listdir(session_paths) if os.path.isfile(os.path.join(session_paths, f))]
 
-        options = f'''This is the message sent by the user: "{prompt}".\n\nFollowing are summarizations of conversation sessions from the past, in format of 'session n: Summarization'. Decide what sessions to view underlying conversations below the summarization by typing their associated number (n) seperated with commas (ex: '0,1,2,13,14' without quote marks). Do not type anything except numbers and commas and only choose directly involved in the context: \n\n'''
+        options = f'''This is the message sent by the user: "{prompt}".\n\nFollowing are summarizations of conversation sessions from the past, in format of '(session) n: Summarization'. Decide what sessions to view underlying conversations below the summarization by typing their associated number (n) seperated with commas (ex: '0,1,2,13,14' without quote marks). DO NOT TYPE ANYTHING EXCEPT NUMBERS AND COMMAS and only choose directly involved in the context: \n\n'''
 
         for i, session in enumerate(session_directories_list):
             session = ConversationSession(session)
@@ -186,7 +186,7 @@ class Agent:
                 session_numbers = []
                 break
 
-            choices = llm.predict(options)
+            choices = gpt4.predict(options)
 
             if choices == "":
                 session_numbers = []
@@ -208,7 +208,7 @@ class Agent:
         reminiscence += f"Current chat session: \n{Agent.currentSession.reminisce(prompt)}\n"
 
         print(f"\n(Reminiscence)\n{reminiscence + prompt}\n")
-        response = llm.predict(reminiscence + prompt)
+        response = gpt4.predict(reminiscence + prompt)
 
         print(response)
         Transpeaker.transpeak(response)

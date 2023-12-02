@@ -1,15 +1,15 @@
 {
     "date": "2023-11-04",
-    "summarization": null,
+    "summarization": "In this conversation session, the topics discussed include the user's previous conversations about programming, neuroscience, artificial intelligence, and the Activation-Synthesis theory. The user also expresses enthusiasm and requests programming assistance, to which the AI responds positively and asks for more details about the user's programming language and specific problem.",
     "promptResponsePairs": [
         {
-            "time": "12:24:56",
+            "time": "17:17:48",
             "humanMessage": "Hello, do you remember me?",
             "AIMessage": "Hello, Somnia! Of course, I remember our conversation about your interests in programming, neuroscience, and artificial intelligence. We also discussed the Activation-Synthesis theory of dreams from neuroscience. How can I assist you today?",
             "summarization": "The user is asking if they are remembered, and the AI confirms it does by recollecting past conversations about programming, neuroscience, artificial intelligence, and the Activation-Synthesis theory.\n"
         },
         {
-            "time": "12:26:22",
+            "time": "17:17:48",
             "humanMessage": "That's amazing! Can you assist me in programming?",
             "AIMessage": "Absolutely, Somnia! I'd be happy to help with your programming needs. Please feel free to ask any question or specify the programming language and the problem you're working on.",
             "summarization": "The user expresses enthusiasm and requests programming assistance, to which the AI responds positively, asking for more details about the user's programming language and specific problem.\n"

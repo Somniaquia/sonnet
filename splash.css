@@ -16,13 +16,11 @@ div, input{
     position: absolute;
 }
 
-input,
 input:focus{
     resize: none;
     overflow: hidden;
     outline: none !important;
     box-shadow: none !important;
-
 }
 
 .schedule_list_text{

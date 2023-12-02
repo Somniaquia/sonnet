@@ -65,6 +65,7 @@ function sleep(sec) {
   } 
 
 activated = false;
+
 async function onActivationClicked(){
     const container = document.getElementById("circle_container");
     const paragraphs = container.querySelectorAll("circle");
@@ -113,7 +114,6 @@ function showCurrentDetail(){
 
 function chatToGPT(e) {
     if(e.keyCode == 13) { 
-        alert("엔터를 입력하셨습니다!");
         return false;
     } else {
         return true;
