@@ -23,15 +23,14 @@ def load_blocklist(task):
             data = json.load(f)
         if task in data:
             print(data[task])
-            return set(data[task]["blocked"]), set(data[task]["ignored"])
+            return set(data[task]["blocked"]), set(data[task]["ignored"]), data[task]["explanation"]
         else:
             return set(), set()
     except FileNotFoundError:
         return set(), set()
     
 context = "studying mathematics"
-explanation = "I shouldn't be procrastinating by programming, drawing, composing, browsing trivial stuff on internet."
-blacklist_process_names, ignored_process_names = load_blocklist(context)
+blacklist_process_names, ignored_process_names, explanation = load_blocklist(context)
 
 def get_current_processes():
     return set([process for process in psutil.process_iter(['pid', 'name']) if process.info['name'] not in ignored_process_names])

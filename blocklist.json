@@ -1,8 +1,7 @@
 {
-    "type": "blocklist",
-    "activating": false,
-    "current": "studying mathematics",
+    "activated": "studying mathematics",
     "studying mathematics": {
+        "explanation": "I shouldn't be procrastinating by programming, drawing, composing, browsing trivial stuff on internet.",
         "blocked": [
             "thunderbird",
             "GameBar.exe",
