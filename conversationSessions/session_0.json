@@ -1,6 +1,6 @@
 {
     "date": "2023-11-04",
-    "summarization": "The conversation session involved discussions on the following topics:\n\n1. Personal introductions and interests of the user and AI, specifically in programming, neuroscience, and AI.\n2. Explanation of the AI's capabilities and name (GPT-3).\n3. Explanation of the Activation-Synthesis theory of neuroscience, which proposes that dreams are the brain's interpretation of random signals during REM sleep.\n4. Discussion on the implementation of long-term memory in transformers, an active research area in AI, with examples of methods currently being studied.",
+    "summarization": "The conversation session involved discussions on the following topics: Personal introductions and interests of the user and AI, specifically in programming, neuroscience, and AI. Explanation of the AI's capabilities and name (GPT-3). Explanation of the Activation-Synthesis theory of neuroscience, which proposes that dreams are the brain's interpretation of random signals during REM sleep. Discussion on the implementation of long-term memory in transformers, an active research area in AI, with examples of methods currently being studied.",
     "promptResponsePairs": [
         {
             "time": "12:09:09",

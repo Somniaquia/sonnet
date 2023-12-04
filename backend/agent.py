@@ -1,4 +1,5 @@
 import json
+import re
 from langchain.chat_models import ChatOpenAI
 
 from dotenv import load_dotenv
@@ -11,6 +12,16 @@ load_dotenv()
 api_key = os.getenv('OPENAI_KEY')
 gpt3_5 = ChatOpenAI(openai_api_key=api_key, model_name='gpt-4')
 gpt4 = ChatOpenAI(openai_api_key=api_key, model_name='gpt-3.5-turbo')
+
+def is_int(s):
+    try:
+        int(s)
+        return True
+    except ValueError:
+        return False
+
+def extract_numbers(string):
+    return [int(item) for item in re.split(r'''[ ,:\n;()."']+''', string) if is_int(item.strip())]
 
 class PromptResponsePair:
     def __init__(self, humanMessage, AIMessage):
@@ -79,16 +90,21 @@ class ConversationSession:
             return ""
 
         while True:
-            summarized = self.disentangle(False)
-            reminiscence = f'''This is the message sent by the user: "{prompt}".\n\nFollowing is a detailed summarization of a conversation session from {self.date}, {(date.today() - self.date).days} days ago, in format of 'Pair n: Summarization'. Decide what pairs to view underlying conversations below the summarization by typing their associated number (n) seperated with commas (ex: '0,1,2,3,13,14' without quote marks). Do not type anything except numbers and commas and only choose directly involved in the context: \n\n{summarized}'''
-            response = gpt4.predict(reminiscence).strip()
+            summarized = self.disentangle(True)
+
+            options = summarized
+            options += f'''\nPrior paragraphs were detailed summarizations of a conversation session from {self.date}, {(date.today() - self.date).days} days ago, in format of 'Session n from (date)'. Decide what pairs to view underlying conversations of the summarization above in order to grasp best of the context by typing only their associated number n seperated with commas (ex: '0,1,2,3,13,14' without quote marks). Do not type anything except numbers and commas and only choose directly involved in the context. \n\nThis is the message sent by the user: "{prompt}".'''
+            # print(options)
+            choices = gpt4.predict(options)
+            # print(f"\nAGENT CHOICE OF VIEWING CONVERSATION PAIRS: {choices}")
             
-            if response == "":
+            if choices == "":
                 pair_numbers = []
                 break
 
             try:
-                pair_numbers = list(map(int, response.split(",")))
+                pair_numbers = extract_numbers(choices)
+                print(f"VIEWING MEMORY PAIRS {pair_numbers} OF SESSION FROM {self.date}")
             except Exception as e:
                 print(e)
                 continue
@@ -99,7 +115,7 @@ class ConversationSession:
         for i, pair in enumerate(self.promptResponsePairs):
             if i in pair_numbers:
                 # reminiscence += f'Pair {i} (viewing details): '
-                reminiscence += pair.disentangle()
+                reminiscence += pair.disentangle() + "\n\n"
             else:
                 # reminiscence += f'Pair {i}: '
                 reminiscence += pair.summarization
@@ -117,12 +133,11 @@ class ConversationSession:
             for i, pair in enumerate(self.promptResponsePairs):
                 disentangled += pair.disentangle()
 
-        return disentangled
+        return disentangled + "\n\n"
 
     def prompt(self, prompt):
-        pseudo_system_message = "(You are an autonomous intelligent )"
         reminiscence = self.reminisce(prompt)
-        print('\n' + reminiscence + prompt + '\n')
+        # print('\n' + reminiscence + prompt + '\n')
         response = gpt4.predict(reminiscence + prompt)
         print(response)
         Transpeaker.transpeak(response)
@@ -130,12 +145,12 @@ class ConversationSession:
         self.promptResponsePairs.append(pair)
 
         summarization = pair.summarize()
-        print(f"\n{summarization}")
+        print(f"SUMMARIZATION: \n{summarization}")
 
         self.save()
 
     def summarize(self):
-        self.summarization = gpt4.predict(f"Summarize what topics were talked about in this conversation session: \n\n{self.disentangle(True)}")
+        self.summarization = gpt4.predict(f"Summarize what topics were talked about in this conversation session without line breaks: \n\n{self.disentangle(True)}")
         self.save()
         return self.summarization
 
@@ -146,14 +161,14 @@ class Agent:
     def promptURL(url, context, explanation):
         prompt = f"Is browsing this url '{url}' considered procrastination in the context of {context}? When {context}, {explanation} Only answer with a single 'yes' or 'no', without the quote marks."
         response = gpt4.predict(prompt).lower()
-        print(response)
+        # print(response)
         return response
 
     @staticmethod
     def promptApp(app_name, context, explanation):
         prompt = f"Is using this application '{app_name}' considered procrastination in the context of {context}? When {context}, {explanation} Only answer with a single 'yes' or 'no', without the quote marks."
         response = gpt4.predict(prompt).lower()
-        print(response)
+        # print(response)
         return response
     
     @staticmethod
@@ -164,7 +179,7 @@ class Agent:
         session_paths = "conversationSessions"
         session_directories_list = [session_paths+"/"+f for f in os.listdir(session_paths) if os.path.isfile(os.path.join(session_paths, f))]
 
-        options = f'''This is the message sent by the user: "{prompt}".\n\nFollowing are summarizations of conversation sessions from the past, in format of '(session) n: Summarization'. Decide what sessions to view underlying conversations below the summarization by typing their associated number (n) seperated with commas (ex: '0,1,2,13,14' without quote marks). DO NOT TYPE ANYTHING EXCEPT NUMBERS AND COMMAS and only choose directly involved in the context: \n\n'''
+        options = ""
 
         for i, session in enumerate(session_directories_list):
             session = ConversationSession(session)
@@ -179,21 +194,26 @@ class Agent:
             if session.summarization == None:
                 session.summarize()
 
-            options += f"Session {i} from {session.date}: {session.summarization}\n"
+            options += f"Session {i} from {session.date}: {session.summarization}\n\n"
 
+        options += f'''\nPrior paragraphs were summarizations of conversation sessions from the past, in format of 'Session n from (date): (summarization)'. Decide what sessions to view underlying conversations of the above summarization in order to grasp best of the context by typing their associated number (n) seperated with commas (ex: '0,1,2,13,14' without quote marks). DO NOT TYPE ANYTHING EXCEPT NUMBERS AND COMMAS and only choose directly involved in the context: \n\nThis is the message sent by the user: "{prompt}".'''
+        # print(f"\n{options}")
+        
         while True:
             if len(session_directories_list) == 0:
                 session_numbers = []
                 break
 
             choices = gpt4.predict(options)
+            # print(choices)
 
             if choices == "":
                 session_numbers = []
                 break
 
             try:
-                session_numbers = list(map(int, choices.split(",")))
+                session_numbers = extract_numbers(choices)
+                print(f"VIEWING MEMORY SESSIONS {session_numbers}\n")
             except Exception as e:
                 print(e)
                 continue
@@ -207,18 +227,18 @@ class Agent:
 
         reminiscence += f"Current chat session: \n{Agent.currentSession.reminisce(prompt)}\n"
 
-        print(f"\n(Reminiscence)\n{reminiscence + prompt}\n")
+        # print(f"\nREMINISCENCE: \n{reminiscence + prompt}\n")
         response = gpt4.predict(reminiscence + prompt)
 
-        print(response)
+        print(response + "\n")
         Transpeaker.transpeak(response)
         pair = PromptResponsePair(prompt, response)
+        pair.summarize()
+        
         Agent.currentSession.promptResponsePairs.append(pair)
-
-        summarization = pair.summarize()
-        print(f"\n{summarization}")
-
         Agent.currentSession.save()
+
+        return response
 
 if __name__ == "__main__":
     while True:

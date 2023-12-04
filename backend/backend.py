@@ -10,9 +10,9 @@ async def accept(websocket, path):
         data = json.loads(data)
 
         if data['type'] == 'userPrompt':
-            print(data['content'], end='\r', flush=True)
             response = Agent.prompt(data['content'])
-            await websocket.send(response)
+            data = {"type": "agentPrompt", "content": response}
+            await websocket.send(json.dumps(data))
 
         elif data['type'] == 'refuteInterrogation':
             print(data['content'], end='\r', flush=True)

@@ -1,15 +1,62 @@
-const { ipcRenderer } = require('electron');
-const WebSocket = require('ws');
-const ws = new WebSocket('ws://127.0.0.1:3000');
+const { ipcRenderer } = require(`electron`);
+const WebSocket = require(`ws`);
 
-ws.onopen = function(){
-    console.log('Connected to the python backend.');
-    sendUserPrompt('CONNECTED');
-    updateSchedule();
-};
+function consoleLog(message) {
+    ipcRenderer.send(`log`, message);
+}
 
-ws.onclose = function(){ console.log('Disconnected'); };
-ws.onerror = function (error) { console.error('WebSocket error:', error); };
+var ws = undefined;
+
+function initializeWebSocket() {
+    function reconnectWebSocket() {
+        consoleLog(`JS-side websocket attempting to reconnect to the python backend...`);
+
+        setTimeout(() => {
+            initializeWebSocket();
+        }, 1000);
+    }
+
+    ws = new WebSocket(`ws://127.0.0.1:3000`);
+
+    ws.onopen = function () {
+        consoleLog(`JS-side websocket connected to the python backend.`);
+    };
+
+    ws.onclose = function () {
+        consoleLog(`JS-side websocket disconnected from the python backend.`);
+        reconnectWebSocket();
+    };
+
+    ws.onerror = function (error) {
+        consoleLog(`JS-side websocket detected error from the python backend:`, error);
+    };
+
+    ws.onmessage = function (event) {
+        consoleLog(`JS-side websocket received data: ${event.data}`, );
+
+        try {
+            var message = JSON.parse(event.data);
+
+            if (message[`type`] == `agentPrompt`) {
+                var agentPrompt = message['content'];
+                addParagraphToPromptBox(agentPrompt)
+
+            } else if (message["type"] == `blockList`) {
+                var blockList = message["content"];
+
+                const activatedSchedule = document.getElementById(`left_window_title`);
+                const activatedScheduleExplanation = document.getElementById(`activatedScheduleExplanation`);
+
+                activatedSchedule.innerText = blockList[`activated`];
+                activatedScheduleExplanation.innerText = [`explanation`].slice(0, 30) + "\n...";
+            }
+        } catch (e) {
+            consoleLog(`Could not parse JSON:`, e);
+        }
+    };
+}
+
+initializeWebSocket();
 
 //#region Toggling wings
 var leftWingActive = false;
@@ -21,22 +68,21 @@ let rightWing = document.getElementById("right_window");
 let leftWingDimension = [leftWing.offsetLeft, leftWing.offsetTop, leftWing.offsetWidth, leftWing.offsetHeight];
 let rightWingDimension = [rightWing.offsetLeft, rightWing.offsetTop, rightWing.offsetWidth, rightWing.offsetHeight];
 
-ipcRenderer.on('toggleLeftWing', () => {
+ipcRenderer.on(`toggleLeftWing`, () => {
     leftWingActive = !leftWingActive;
-    console.log("Hello");
     if (leftWingActive) openLeftWindow(); else closeLeftWindow();
 });
 
-ipcRenderer.on('toggleRightWing', () => {
+ipcRenderer.on(`toggleRightWing`, () => {
     rightWingActive = !rightWingActive;
     if (rightWingActive) openRightWindow(); else closeRightWindow();
 })
 
-document.addEventListener('mousemove', (event) => {
+document.addEventListener(`mousemove`, (event) => {
     if (isTransparent(event.x, event.y)) {
-        ipcRenderer.send('ignore-mouse-events', true, { forward: true });
+        ipcRenderer.send(`ignore-mouse-events`, true, { forward: true });
     } else {
-        ipcRenderer.send('ignore-mouse-events', false);
+        ipcRenderer.send(`ignore-mouse-events`, false);
     }
 });
 
@@ -63,31 +109,6 @@ var ignorerdListArea = document.getElementById("ignoredList");
 
 var selectedName;
 
-ws.onmessage = function (event) {
-    console.log('Received: %s', event.data);
-
-    try {
-        var message = JSON.parse(event.data);
-        console.log('Response:', message);
-        
-        if (message['type'] == 'agentPrompt') {
-            var agentPrompt = JSON.parse(message);
-            addParagraphToPromptBox(agentPrompt)
-
-        } else if (message["type"] == 'blockList') {
-            var blockList = message["content"];
-
-            const activatedSchedule = document.getElementById('left_window_title');
-            const activatedScheduleExplanation = document.getElementById('activatedScheduleExplanation');
-
-            activatedSchedule.innerText = blockList['activated'];
-            activatedScheduleExplanation.innerText = ['explanation'].slice(0, 30) + "\n...";
-        }
-    } catch (e) {
-        console.error('Could not parse JSON:', e);
-    }
-};
-
 function refuteInterrogation(selectedInstance) {
     selectedInstance.name
 }
@@ -95,43 +116,45 @@ function refuteInterrogation(selectedInstance) {
 function selectSchedule(scheduleName) {
     if (ws.readyState === WebSocket.OPEN) {
         let string = `{"type":"","content": "${message}"}`
-        // console.log(JSON.parse(string));
         ws.send(string);
     } else {
-        console.error('WebSocket is not open.');
+        consoleLog(`WebSocket is not open.`);
     }
 }
 //#endregion
 
 //#region Right Wing functions
-var conversationArea = document.getElementById("conversationArea");
-var promptArea = document.getElementById("promptArea");
+var conversationArea = document.getElementById("chat_scroller");
+var promptArea = document.getElementById("chat_input_box_input");
 
 function addParagraphToPromptBox(message, role) {
-    const messageDiv = document.createElement('div');
-    messageDiv.classList.add(className);
-    messageDiv.textContent = text;
-    conversationArea.appendChild(messageDiv);
+    var newChatBox = document.createElement("div");
 
-    // Scroll to the latest message
+    newChatBox.setAttribute("id", "chat_box");
+    var dataFrom = (role == "user") ? "right" : "left";
+    newChatBox.setAttribute("data-from", dataFrom);
+    newChatBox.textContent = message;
+
+    conversationArea.appendChild(newChatBox);
     conversationArea.scrollTop = conversationArea.scrollHeight;
 }
 
-function sendUserPrompt(message) {
+function sendUserPrompt(message, role) {
+    addParagraphToPromptBox(message, role);
+
     if (ws.readyState === WebSocket.OPEN) {
         let string = `{"type":"userPrompt","content": "${message}"}`
-        // console.log(JSON.parse(string));
         ws.send(string);
     } else {
-        console.error('WebSocket is not open.');
+        consoleLog(`WebSocket is not open; Couldn't send user prompt.`);
     }
 }
 
 promptArea.addEventListener("keypress", function (event) {
     if (event.key === "Enter") {
         event.preventDefault();
-        sendUserPrompt(promptArea.value)
-        promptArea.value = ""
+        sendUserPrompt(promptArea.value, "user");
+        promptArea.value = "";
     }
 }); 
 
