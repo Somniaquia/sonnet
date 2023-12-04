@@ -1,59 +1,259 @@
-#main_menu {
-    border-radius: 10px;
-    background: rgba(255, 255, 255, 0.50);
-    backdrop-filter: blur(10px);
-    width: 750px;
-    height: 1150px;
-    flex-shrink: 0;
+@import url('https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Do Hyeon', sans-serif;
 }
 
-.boarder_back {
-    background: rgba(105.36, 172.96, 164.59, 0.50);
+html {
+    width: 100vw;
+    height: 100vh;
 }
 
-div, input{
-    border-radius: 40px;
-    position: absolute;
-}
-
-input:focus{
-    resize: none;
+body {
+    width: 100%;
+    height: 100%;
+    background-image: url("https://dwgyu36up6iuz.cloudfront.net/heru80fdn/image/upload/c_fill,d_placeholder_thenewyorker.png,fl_progressive,g_face,h_1080,q_80,w_1920/v1522075014/thenewyorker_obsessions-how-cats-tamed-us.jpg");
     overflow: hidden;
-    outline: none !important;
-    box-shadow: none !important;
 }
 
-.schedule_list_text{
-    color: #000;
-    text-align: center;
-    font-family: Inter;
-    font-size: 30px;
-    font-style: normal;
-    font-weight: 900;
-    line-height: normal;
-    width: 574px; 
-    top: 5px;
-    left: 27px;
+#left_window {
+    width: 600px;
+    height: calc(100% - 30px);
     position: absolute;
+    bottom: 10px;
+    left: 20px;
+    background-color: rgba(255, 255, 255, 70%);
+    backdrop-filter: blur(30px);
+    border-radius: 10px;
+    overflow: auto;
+    transform: translateX(-650px);
+    transition-duration: 500ms;
 }
 
-.schedule_list {
-    background: rgba(224, 242, 241, 0.60);
-    border-radius: 60px
+#left_window::-webkit-scrollbar {
+    display: none;
 }
 
+#left_window_title {
+    width: 100%;
+    margin-top: 34px;
+    margin-bottom: 8px;
+    font-size: 18px;
+    text-align: center;
+}
 
-.circle {
-  fill:none;
-  stroke-dasharray: 754;
-  stroke-dashoffset: 754;
-  animation: progress 1.5s ease-in-out infinite;
-  transform-origin: center;
-  transform: rotate(-90deg);
-  }
-  @keyframes progress {
-    100%
-    {
-      stroke-dashoffset: 0;
-    }
+#left_list_box_wrap {
+    width: 560px;
+    height: 300px;
+    margin: 0 auto;
+    margin-top: 20px;
+    background-color: #FFFFFF;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 16%);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+#left_list_box_title {
+    width: 100%;
+    padding-left: 20px;
+    margin-top: 22px;
+    font-size: 14px;
+}
+
+#left_list_scroll {
+    width: 520px;
+    height: 230px;
+    background-color: #F2F2F2;
+    margin: 0 auto;
+    margin-top: 11px;
+    border-radius: 5px;
+    overflow: auto;
+}
+
+#left_list_scroll::-webkit-scrollbar {
+    display: none;
+}
+
+#left_list_scroll_item {
+    width: 100%;
+    height: 20px;
+}
+
+#left_list_scroll_item:nth-child(even) {
+    background-color: #FFFFFF;
+}
+
+#left_list_scroll_item div:nth-child(1) {
+    width: 160px;
+    margin-top: 4px;
+    margin-left: 10px;
+    float: left;
+    font-size: 10px;
+    color: #707070;
+}
+
+#left_list_scroll_item div:nth-child(2) {
+    width: 90px;
+    margin-top: 4px;
+    margin-left: 10px;
+    float: left;
+    font-size: 10px;
+    color: #707070;
+}
+
+#left_list_scroll_item div:nth-child(3) {
+    width: 230px;
+    margin-top: 4px;
+    margin-left: 10px;
+    float: left;
+    font-size: 10px;
+    color: #707070;
+}
+
+#left_refute_btn {
+    width: 560px;
+    height: 70px;
+    margin: 0 auto;
+    background-color: #FFFFFF;
+    border-radius: 10px;
+    text-align: center;
+    line-height: 70px;
+    font-size: 26px;
+    margin-top: 20px;
+    transition-duration: 300ms;
+    cursor: pointer;
+}
+
+#left_refute_btn:hover {
+    transform: scale(97%);
+}
+
+#left_schedules_box {
+    width: 560px;
+    height: 300px;
+    background-color: #FFFFFF;
+    margin: 0 auto;
+    margin-top: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    overflow: hidden;
+}
+
+#left_schedules_box_title {
+    width: 100%;
+    padding-left: 20px;
+    margin-top: 22px;
+    font-size: 14px;
+}
+
+#left_schedules_box_inner_box {
+    width: 520px;
+    height: 50px;
+    background-color: #F2F2F2;
+    border-radius: 5px;
+    margin: 0 auto;
+    margin-top: 10px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+}
+
+#left_schedules_box_inner_box_icon_box {
+    width: 30px;
+    height: 30px;
+    margin-left: 10px;
+    border-radius: 5px;
+    background-color: #DBDBDB;
+}
+
+#left_schedules_box_inner_box_content {
+    width: 460px;
+    height: fit-content;
+    margin-left: 10px;
+    font-size: 16px;
+    color: #707070;
+}
+
+#right_window {
+    width: 600px;
+    height: 750px;
+    position: absolute;
+    bottom: 10px;
+    right: 20px;
+    background-color: rgba(255, 255, 255, 70%);
+    backdrop-filter: blur(30px);
+    border-radius: 10px;
+    overflow: auto;
+    transform: translateX(650px);
+    transition-duration: 500ms;
+}
+
+#right_window::-webkit-scrollbar {
+    display: none;
+}
+
+#chat_scroller {
+    width: 100%;
+    height: 660px;
+    padding: 20px;
+    overflow: auto;
+    margin-bottom: 20px;
+}
+
+#chat_scroller::-webkit-scrollbar {
+    display: none;
+}
+
+#chat_box {
+    width: fit-content;
+    max-width: 400px;
+    height: fit-content;
+    background-color: #FFFFFF;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 16%);
+    padding-left: 25px;
+    padding-right: 25px;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    font-size: 16px;
+}
+
+#chat_box[data-from="left"] {
+    border-radius: 20px 20px 20px 5px;
+    margin: 15px auto 0px 0px;
+}
+
+#chat_box[data-from="right"] {
+    border-radius: 20px 20px 5px 20px;
+    margin: 15px 0px 0px auto;
+}
+
+#chat_input_box {
+    width: 560px;
+    height: 50px;
+    border-radius: 10px;
+    background-color: #FFFFFF;
+    margin: 0 auto;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 16%);
+    display: flex;
+    align-items: center;
+}
+
+#chat_input_box_icon {
+    margin-left: 17px;
+}
+
+#chat_input_box_input {
+    width: 490px;
+    margin-left: 20px;
+    height: 100%;
+    display: block;
+    border: none;
+    font-size: 18px;
+}
+
+#chat_input_box_input:focus {
+    outline: none;
 }
