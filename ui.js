@@ -19,16 +19,16 @@ function initializeWebSocket() {
     ws = new WebSocket(`ws://127.0.0.1:3000`);
 
     ws.onopen = function () {
-        consoleLog(`JS-side websocket connected to the python backend.`);
+        consoleLog(`JS-side websocket connected to the python backend.\n`);
     };
 
     ws.onclose = function () {
-        consoleLog(`JS-side websocket disconnected from the python backend.`);
+        consoleLog(`JS-side websocket disconnected from the python backend.\n`);
         reconnectWebSocket();
     };
 
     ws.onerror = function (error) {
-        consoleLog(`JS-side websocket detected error from the python backend:`, error);
+        consoleLog(`JS-side websocket detected error from the python backend: ${error}\n`);
     };
 
     ws.onmessage = function (event) {

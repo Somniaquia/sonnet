@@ -230,7 +230,7 @@ class Agent:
         # print(f"\nREMINISCENCE: \n{reminiscence + prompt}\n")
         response = gpt4.predict(reminiscence + prompt)
 
-        print(response + "\n")
+        print("\nAGENT RESPONSE: " + response + "\n")
         Transpeaker.transpeak(response)
         pair = PromptResponsePair(prompt, response)
         pair.summarize()
